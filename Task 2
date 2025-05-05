@@ -1,0 +1,53 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+void registerUser() {
+    string username, password;
+    cout << "Enter username: ";
+    cin >> username;
+    cout << "Enter password: ";
+    cin >> password;
+
+    ofstream file("users/" + username + ".txt");
+    file << username << endl << password;
+    file.close();
+    cout << "Registration successful!\n";
+}
+
+void loginUser() {
+    string username, password, u, p;
+    cout << "Enter username: ";
+    cin >> username;
+    cout << "Enter password: ";
+    cin >> password;
+
+    ifstream file("users/" + username + ".txt");
+    if (!file) {
+        cout << "User not found.\n";
+        return;
+    }
+    getline(file, u);
+    getline(file, p);
+    file.close();
+
+    if (u == username && p == password)
+        cout << "Login successful!\n";
+    else
+        cout << "Invalid credentials!\n";
+}
+
+int main() {
+    int choice;
+    cout << "1. Register\n2. Login\nEnter choice: ";
+    cin >> choice;
+
+    switch (choice) {
+        case 1: registerUser(); break;
+        case 2: loginUser(); break;
+        default: cout << "Invalid choice.\n";
+    }
+
+    return 0;
+}
